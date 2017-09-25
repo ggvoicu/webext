@@ -2,26 +2,31 @@
 	"manifest_version": 2,
 	"name": "Image Replace",
 	"version": "0.1",
-	"description": "Modifies all images on the webpage with one of your own.",
+	"description": "Adds a input that comunicates with the backend, only works on zoso.ro",
+	
+	"background":{
+		"scripts":[
+			"jquery.min.js", "background.js"
+		]
+	},
+	
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["script.js"]
+			"js": ["jquery.min.js", "content.js"],
+			"run_at" : "document_end"
 		}
 	],
+
 	"browser_action":{
 		"default_icon": "icons/star-filled-19.png",
-		"default_title": "Img-Fy",
-		"default_popup": "popup.html"
+		"default_title": "Recommend"
 	},
 
 	"permissions": [
 		"activeTab"
 	],
 	
-	"web_accessible_resources": [
-		"picture.jpg"
-	],
 	"applications": {
 		"gecko": {
 			"id": "something@example.com"

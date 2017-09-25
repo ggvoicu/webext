@@ -1,15 +1,36 @@
-var allImg = document.getElementsByTagName("IMG");
-var replacePic = browser.extension.getURL("picture.jpg");
-
-console.log("test");
-
-function imgReplace(request){
-	console.log(request);
-	for ( var i=0; i < allImg.length; i++){
-	allImg[i].src = request.imgURL;
-	}
+function duteVino(request, sender, sendResponse){
+	if(request["val"])
+	{
+		showData(request.val);
+	} else {
+		addInput();
+	}	
 }
 
-browser.runtime.onMessage.addListener(imgReplace);
+function addInput(){
+    var input = $('<input id="cauta">');
+    $('#primary').prepend(input);
+	var elem = $('<div></div>').attr("id","rezultate");
+	$("#cauta").append(elem);
+    input.keyup(getVal);
+}
 
+function getVal(){
+    var data = $('#cauta').val();
+    browser.runtime.sendMessage({'val' : data}).then(showData);
+}
 
+function showData(message){
+	console.log(message.results);
+	//var rez = $("#rezultate");
+    //rez.text(message.results);
+	document.getElementById('rezultate').innerHTML = message.results;
+}
+
+var elem = $('<div></div>').attr("id","rezultate");
+$("#primary").prepend(elem);
+var input = $('<input id="cauta">');
+$('#primary').prepend(input);
+input.keyup(getVal);
+
+browser.runtime.onMessage.addListener(duteVino);
